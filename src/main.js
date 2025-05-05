@@ -16,7 +16,7 @@ const usedWords = []
 const iterator = [0, 1, 2, 3, 4]
 let attemptCount = 0
 
-const currentWord = 'hello'
+let currentWord = 'hello'
 let currentInput = ''
 
 //2 checks, 1 for exact correctness, 2 for letter correctness excluding exact letters
