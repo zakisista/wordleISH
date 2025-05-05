@@ -4,13 +4,15 @@ import viteLogo from '/vite.svg'
 
 document.querySelector('#app').innerHTML = `
   <div>
+    <div id="absolute-letters"></div>
     <div id="output-text"></div>
     <div id="correct-letters"></div>
-    <div id="absolute-letters"></div>
     <input id="input-text">
     <button id="submit">submit</button>
   </div>
 `
+
+const iterator = [0, 1, 2, 3, 4]
 const attemptCount = 0
 
 const currentWord = 'hello'
@@ -19,9 +21,10 @@ const currentWord = 'hello'
 
 
 
-const submitButton = document.querySelector(`#submit`)
-const input        = document.querySelector(`#input-text`)
-const outputText   = document.querySelector(`#output-text`)
+const submitButton    = document.querySelector(`#submit`)
+const input           = document.querySelector(`#input-text`)
+const outputText      = document.querySelector(`#output-text`)
+const absoluteLetters = document.querySelector(`#absolute-letters`)
 
 const onSubmit = () => {
   console.log('been clicked')
@@ -32,11 +35,28 @@ const onSubmit = () => {
   }
   
   const absoluteIdxList = correctIdx(inputContent)
-  const correctLetterIdxList = correctLetter(inputContent, correctIdxList)
+  const correctLetterIdxList = correctLetter(inputContent, absoluteIdxList)
+  
+  addAttempt(inputContent, absoluteIdxList, correctLetterIdxList)
 
   outputText.innerHTML = inputContent.length
   input.value = ''
 }
+
+const addAttempt = (inputContent, absoluteIdxList, correctLetterIdxList) => {
+  absoluteLetters.innerHTML = 'MAIN WORD: '
+
+  iterator.forEach((idx) => {
+    if(!absoluteIdxList.includes(idx)) {
+      absoluteLetters.insertAdjacentHTML('beforeend', `_ `)
+    } else {
+      absoluteLetters.insertAdjacentHTML('beforeend', `${inputContent.slice(idx, idx+1)} `)
+    }
+  })
+  
+  
+}
+
 
 const correctLetter = (inputContent, correctIdxList) => {
   const correctLetterList = []
