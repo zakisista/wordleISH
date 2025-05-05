@@ -4,19 +4,22 @@ import viteLogo from '/vite.svg'
 
 document.querySelector('#app').innerHTML = `
   <div>
-    <div id="absolute-letters"></div>
+    <div id="absolute-letters">MAIN WORD: _ _ _ _ _</div>
     <div id="output-text"></div>
     <div id="correct-letters"></div>
-    <div id="attempts-remaining"></div>
+    <div id="attempts-remaining">Attempts Remaining: </div>
     <input id="input-text">
     <button id="submit">submit</button>
   </div>
 `
+const wordList = ['hello', 'check', 'flair', 'cloth', 'blood', 'shesh']
+const usedWords = []
 
 const iterator = [0, 1, 2, 3, 4]
 let attemptCount = 0
 
 const currentWord = 'hello'
+let currentInput = ''
 
 //2 checks, 1 for exact correctness, 2 for letter correctness excluding exact letters
 
@@ -40,10 +43,64 @@ const onSubmit = () => {
   const absoluteIdxList = correctIdx(inputContent)
   const correctLetterIdxList = correctLetter(inputContent, absoluteIdxList)
   
-  addAttempt(inputContent, absoluteIdxList, correctLetterIdxList)
+  const correctWord = addAttempt(inputContent, absoluteIdxList, correctLetterIdxList)
+  
+  if (correctWord) {
+    onWin()
+  } else if (attemptCount >= 5) {
+    onLoss()
+  }
 
   outputText.innerHTML = inputContent.length
   input.value = ''
+}
+
+const reset = () => {
+  document.querySelector('#app').innerHTML = `
+  <div>
+    <div id="absolute-letters">MAIN WORD: _ _ _ _ _</div>
+    <div id="output-text"></div>
+    <div id="correct-letters"></div>
+    <div id="attempts-remaining">Attempts Remaining: </div>
+    <input id="input-text">
+    <button id="submit">submit</button>
+  </div>
+`
+  attemptCount = 0
+
+  currentWord = 'hello'
+  currentInput = ''
+  submitButton      = document.querySelector(`#submit`)
+  input             = document.querySelector(`#input-text`)
+  outputText        = document.querySelector(`#output-text`)
+  absoluteLetters   = document.querySelector(`#absolute-letters`)
+  correctLetters    = document.querySelector(`#correct-letters`)
+  attemptsRemaining = document.querySelector(`#attempts-remaining`)
+
+  submitButton.addEventListener('click', onSubmit)
+
+}
+
+const onLoss = () => {
+  console.log('lost')
+  document.querySelector('#app').innerHTML = `
+  <div>YOU LOSE</div>
+  <button id="restart">RETRY</button>
+  `
+  const retryButton = document.querySelector(`#restart`)
+  retryButton.addEventListener('click', reset)
+
+}
+
+const onWin = () => {
+  console.log('won')
+  console.log('lost')
+  document.querySelector('#app').innerHTML = `
+  <div>YOU WIN</div>
+  <button id="restart">RETRY</button>
+  `
+  const retryButton = document.querySelector(`#restart`)
+  retryButton.addEventListener('click', reset)
 }
 
 const addAttempt = (inputContent, absoluteIdxList, correctLetterIdxList) => {
@@ -51,6 +108,7 @@ const addAttempt = (inputContent, absoluteIdxList, correctLetterIdxList) => {
   correctLetters.innerHTML = 'CORRECT LETTERS: '
   
   attemptCount += 1
+  currentInput = inputContent.slice()
 
   iterator.forEach((idx) => {
     if(!absoluteIdxList.includes(idx)) {
@@ -64,7 +122,14 @@ const addAttempt = (inputContent, absoluteIdxList, correctLetterIdxList) => {
     correctLetters.insertAdjacentHTML('beforeend', `${letter}, `)
   })
   
-  attemptsRemaining.innerHTML = `Attempts Remaining: ${(6 - attemptCount).toString()}`
+  attemptsRemaining.innerHTML = `Attempts Remaining: ${(5 - attemptCount).toString()}`
+  
+
+  if (inputContent === currentWord) {
+    return true
+  } else {
+    return false
+  }
 }
 
 
