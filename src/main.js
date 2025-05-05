@@ -7,13 +7,14 @@ document.querySelector('#app').innerHTML = `
     <div id="absolute-letters"></div>
     <div id="output-text"></div>
     <div id="correct-letters"></div>
+    <div id="attempts-remaining"></div>
     <input id="input-text">
     <button id="submit">submit</button>
   </div>
 `
 
 const iterator = [0, 1, 2, 3, 4]
-const attemptCount = 0
+let attemptCount = 0
 
 const currentWord = 'hello'
 
@@ -21,10 +22,12 @@ const currentWord = 'hello'
 
 
 
-const submitButton    = document.querySelector(`#submit`)
-const input           = document.querySelector(`#input-text`)
-const outputText      = document.querySelector(`#output-text`)
-const absoluteLetters = document.querySelector(`#absolute-letters`)
+const submitButton      = document.querySelector(`#submit`)
+const input             = document.querySelector(`#input-text`)
+const outputText        = document.querySelector(`#output-text`)
+const absoluteLetters   = document.querySelector(`#absolute-letters`)
+const correctLetters    = document.querySelector(`#correct-letters`)
+const attemptsRemaining = document.querySelector(`#attempts-remaining`)
 
 const onSubmit = () => {
   console.log('been clicked')
@@ -45,6 +48,9 @@ const onSubmit = () => {
 
 const addAttempt = (inputContent, absoluteIdxList, correctLetterIdxList) => {
   absoluteLetters.innerHTML = 'MAIN WORD: '
+  correctLetters.innerHTML = 'CORRECT LETTERS: '
+  
+  attemptCount += 1
 
   iterator.forEach((idx) => {
     if(!absoluteIdxList.includes(idx)) {
@@ -54,7 +60,11 @@ const addAttempt = (inputContent, absoluteIdxList, correctLetterIdxList) => {
     }
   })
   
+  correctLetterIdxList.forEach((letter) => {
+    correctLetters.insertAdjacentHTML('beforeend', `${letter}, `)
+  })
   
+  attemptsRemaining.innerHTML = `Attempts Remaining: ${(6 - attemptCount).toString()}`
 }
 
 
