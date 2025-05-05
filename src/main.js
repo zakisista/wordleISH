@@ -12,7 +12,7 @@ document.querySelector('#app').innerHTML = `
     <button id="submit">submit</button>
   </div>
 `
-const wordList = ['hello', 'check', 'flair', 'cloth', 'blood', 'shesh']
+const wordList = ['hello', 'check', 'flair', 'cloth', 'blood', 'shesh', 'lists']
 const usedWords = []
 
 const iterator = [0, 1, 2, 3, 4]
@@ -67,8 +67,13 @@ const reset = () => {
   </div>
 `
   attemptCount = 0
+  
+  if(usedWords.length() >= 3) {
+    usedWords = []
+  }
+  usedWords.push(currentWord)
 
-  currentWord = 'hello'
+  currentWord = getNewWord()
   currentInput = ''
   submitButton      = document.querySelector(`#submit`)
   input             = document.querySelector(`#input-text`)
@@ -79,6 +84,14 @@ const reset = () => {
 
   submitButton.addEventListener('click', onSubmit)
 
+}
+
+const getNewWord = () => {
+  const newWord = wordList[Math.floor(Math.random()*wordList.length)];
+  if(usedWords.includes(newWord)) {
+    getNewWord()
+  }
+  return(newWord)
 }
 
 const onLoss = () => {
