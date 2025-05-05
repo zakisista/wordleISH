@@ -66,7 +66,7 @@ const reset = () => {
 `
   attemptCount = 0
   
-  if(usedWords.length() >= 3) {
+  if(usedWords.length >= 3) {
     usedWords = []
   }
   usedWords.push(currentWord)
