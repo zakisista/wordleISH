@@ -23,12 +23,12 @@ let currentInput = ''
 
 
 
-const submitButton      = document.querySelector(`#submit`)
-const input             = document.querySelector(`#input-text`)
-const outputText        = document.querySelector(`#output-text`)
-const absoluteLetters   = document.querySelector(`#absolute-letters`)
-const correctLetters    = document.querySelector(`#correct-letters`)
-const attemptsRemaining = document.querySelector(`#attempts-remaining`)
+let submitButton      = document.querySelector(`#submit`)
+let input             = document.querySelector(`#input-text`)
+let outputText        = document.querySelector(`#output-text`)
+let absoluteLetters   = document.querySelector(`#absolute-letters`)
+let correctLetters    = document.querySelector(`#correct-letters`)
+let attemptsRemaining = document.querySelector(`#attempts-remaining`)
 
 const onSubmit = () => {
   console.log('been clicked')
